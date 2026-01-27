@@ -31,15 +31,6 @@ public class GeneroService implements IGeneroService {
     }
 
     @Override
-    public Genero getGeneroByNombreIgnoreCase(String nombre) {
-        Genero genero = null;
-        if (nombre != null && !nombre.isEmpty()) {
-            genero = this.generoDAO.findByNombreIgnoreCase(nombre);
-        }
-        return genero;
-    }
-
-    @Override
     public Genero createGenero(Genero genero) {
         Genero savedGenero = null;
         if (genero != null && (genero.getId() == null || genero.getId() == 0)) {

@@ -22,7 +22,7 @@ public class Genero {
     private String descripcion;
 
     @ManyToMany(mappedBy = "generos")
-    @JsonIgnoreProperties("generos")
+    @JsonIgnoreProperties({"generos", "actores"})
     private Set<Pelicula> peliculas = new LinkedHashSet<>();
 
     public Integer getId() {

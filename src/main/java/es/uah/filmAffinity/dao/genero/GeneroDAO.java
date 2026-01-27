@@ -27,7 +27,7 @@ public class GeneroDAO implements IGeneroDAO {
 
     @Override
     public Genero findByNombreIgnoreCase(String nombre) {
-        return Optional.ofNullable(this.generoJPA.findByNombreIgnoreCase(nombre)).orElse(null);
+        return this.generoJPA.findByNombreIgnoreCase(nombre).orElse(null);
     }
 
     @Override

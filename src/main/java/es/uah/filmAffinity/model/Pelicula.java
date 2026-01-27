@@ -137,12 +137,28 @@ public class Pelicula {
         this.actores = actores;
     }
 
+    public void addActor(Actor actor){
+       this.actores.add(actor);
+    }
+
+    public void removeActor(Actor actor){
+        this.actores.remove(actor);
+    }
+
     public Set<Genero> getGeneros() {
         return generos;
     }
 
     public void setGeneros(Set<Genero> generos) {
         this.generos = generos;
+    }
+
+    public void addGenero(Genero genero){
+        this.generos.add(genero);
+    }
+
+    public void removeGenero(Genero genero){
+        this.generos.remove(genero);
     }
 
     @Override

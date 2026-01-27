@@ -26,11 +26,6 @@ public class GeneroController {
         return this.generoService.getGeneroById(id);
     }
 
-    @GetMapping("/generos/nombre/{nombre}")
-    public Genero getGeneroByNombre(@PathVariable("nombre") String nombre){
-        return this.generoService.getGeneroByNombreIgnoreCase(nombre);
-    }
-
     @PostMapping("/generos")
     public Genero createGenero(@RequestBody Genero genero){
         return this.generoService.createGenero(genero);

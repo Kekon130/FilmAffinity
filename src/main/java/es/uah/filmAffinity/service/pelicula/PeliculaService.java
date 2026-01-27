@@ -32,12 +32,12 @@ public class PeliculaService implements IPeliculaService {
     }
 
     @Override
-    public Pelicula findByTituloIgnoreCase(String titulo) {
-        Pelicula pelicula = null;
+    public List<Pelicula> findByTituloIgnoreCase(String titulo) {
+        List<Pelicula> peliculas = null;
         if (titulo != null && !titulo.isBlank()) {
-            pelicula = this.peliculaDAO.findByTituloIgnoreCase(titulo);
+            peliculas = this.peliculaDAO.findByTituloIgnoreCase(titulo);
         }
-        return pelicula;
+        return peliculas;
     }
 
     @Override
@@ -99,6 +99,34 @@ public class PeliculaService implements IPeliculaService {
     public void deleteById(Integer id) {
         if (id != null && id > 0) {
             this.peliculaDAO.deleteById(id);
+        }
+    }
+
+    @Override
+    public void addActor(Integer id, String nombre) {
+        if (id != null && id > 0 && nombre != null && !nombre.isBlank()) {
+            this.peliculaDAO.addActor(id, nombre);
+        }
+    }
+
+    @Override
+    public void deleteActor(Integer id, String nombre) {
+        if (id != null && id > 0 && nombre != null && !nombre.isBlank()) {
+            this.peliculaDAO.deleteActor(id, nombre);
+        }
+    }
+
+    @Override
+    public void addGenero(Integer id, String nombre) {
+        if (id != null && id > 0 && nombre != null && !nombre.isBlank()) {
+            this.peliculaDAO.addGenero(id, nombre);
+        }
+    }
+
+    @Override
+    public void deleteGenero(Integer id, String nombre) {
+        if (id != null && id > 0 && nombre != null && !nombre.isBlank()) {
+            this.peliculaDAO.deleteGenero(id, nombre);
         }
     }
 }

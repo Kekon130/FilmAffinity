@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -25,7 +26,7 @@ public class Actor {
     private String paisNacimiento;
 
     @ManyToMany(mappedBy = "actores")
-    @JsonIgnoreProperties("actores")
+    @JsonIgnoreProperties("actores, generos")
     private Set<Pelicula> peliculas = new LinkedHashSet<>();
 
     public Integer getId() {
@@ -68,4 +69,26 @@ public class Actor {
         this.peliculas = peliculas;
     }
 
+    @Override
+    public String toString() {
+        return "Actor{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", fechaNacimiento=" + fechaNacimiento +
+                ", paisNacimiento='" + paisNacimiento + '\'' +
+                ", peliculas=" + peliculas +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Actor actor = (Actor) o;
+        return Objects.equals(getId(), actor.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface IPeliculaService {
     List<Pelicula> findAll();
     Pelicula findById(Integer id);
-    Pelicula findByTituloIgnoreCase(String titulo);
+    List<Pelicula> findByTituloIgnoreCase(String titulo);
     List<Pelicula> findByDirectorContainsIgnoreCase(String director);
     List<Pelicula> findBySagaIgnoreCase(String saga);
     List<Pelicula> findByGenerosNombreIgnoreCase(String nombre);
@@ -15,4 +15,8 @@ public interface IPeliculaService {
     Pelicula save(Pelicula pelicula);
     Pelicula update(Pelicula pelicula);
     void deleteById(Integer id);
+    void addActor(Integer id, String nombre);
+    void deleteActor(Integer id, String nombre);
+    void addGenero(Integer id, String nombre);
+    void deleteGenero(Integer id, String nombre);
 }

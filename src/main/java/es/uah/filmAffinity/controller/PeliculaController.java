@@ -27,7 +27,7 @@ public class PeliculaController {
     }
 
     @GetMapping("/peliculas/titulo/{titulo}")
-    public Pelicula findByTituloIgnoreCase(@PathVariable("titulo") String titulo) {
+    public List<Pelicula> findByTituloIgnoreCase(@PathVariable("titulo") String titulo) {
         return this.peliculaService.findByTituloIgnoreCase(titulo);
     }
 
@@ -64,5 +64,25 @@ public class PeliculaController {
     @DeleteMapping("/peliculas/id/{id}")
     public void deleteById(@PathVariable("id") Integer id) {
         this.peliculaService.deleteById(id);
+    }
+
+    @GetMapping("/peliculas/add/actor/{id}/{nombre}")
+    public void addActor(@PathVariable("id") Integer id, @PathVariable("nombre") String nombre) {
+        this.peliculaService.addActor(id, nombre);
+    }
+
+    @GetMapping("/peliculas/delete/actor/{id}/{nombre}")
+    public void deleteActor(@PathVariable("id") Integer id, @PathVariable("nombre") String nombre) {
+        this.peliculaService.deleteActor(id, nombre);
+    }
+
+    @GetMapping("/peliculas/add/genero/{id}/{nombre}")
+    public void addGenero(@PathVariable("id") Integer id, @PathVariable("nombre") String nombre) {
+        this.peliculaService.addGenero(id, nombre);
+    }
+
+    @GetMapping("/peliculas/delete/genero/{id}/{nombre}")
+    public void deleteGenero(@PathVariable("id") Integer id, @PathVariable("nombre") String nombre) {
+        this.peliculaService.deleteGenero(id, nombre);
     }
 }
