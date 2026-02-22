@@ -1,6 +1,9 @@
 package es.uah.filmAffinity.service.genero;
 
 import es.uah.filmAffinity.dao.genero.IGeneroDAO;
+import es.uah.filmAffinity.dto.request.genero.GeneroRequest;
+import es.uah.filmAffinity.dto.response.genero.GeneroResponse;
+import es.uah.filmAffinity.mapper.genero.IGeneroMapper;
 import es.uah.filmAffinity.model.Genero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,44 +12,50 @@ import java.util.List;
 
 @Service
 public class GeneroService implements IGeneroService {
-    private IGeneroDAO generoDAO;
+    private final IGeneroDAO generoDAO;
+    private final IGeneroMapper generoMapper;
 
     @Autowired
-    public GeneroService(IGeneroDAO generoDAO) {
+    public GeneroService(IGeneroDAO generoDAO, IGeneroMapper generoMapper) {
         this.generoDAO = generoDAO;
+        this.generoMapper = generoMapper;
     }
 
     @Override
-    public List<Genero> getGeneros() {
-        return this.generoDAO.findAll();
+    public List<GeneroResponse> getGeneros() {
+        return this.generoDAO.findAll().stream().map(this.generoMapper::toResponse).toList();
     }
 
     @Override
-    public Genero getGeneroById(Integer id) {
-        Genero genero = null;
+    public GeneroResponse getGeneroById(Integer id) {
+        GeneroResponse response = null;
         if (id != null && id > 0) {
-            genero = this.generoDAO.findById(id);
+            response = this.generoMapper.toResponse(this.generoDAO.findById(id));
         }
-        return genero;
+        return response;
     }
 
     @Override
-    public Genero createGenero(Genero genero) {
-        Genero savedGenero = null;
-        if (genero != null && (genero.getId() == null || genero.getId() == 0)) {
-            genero.setId(null);
-            savedGenero = this.generoDAO.save(genero);
+    public GeneroResponse createGenero(GeneroRequest genero) {
+        GeneroResponse response = null;
+        if (genero != null) {
+            response = this.generoMapper.toResponse(this.generoDAO.save(this.generoMapper.toNewEntity(genero)));
         }
-        return savedGenero;
+        return response;
     }
 
     @Override
-    public Genero updateGenero(Genero genero) {
-        Genero updatedGenero = null;
+    public GeneroResponse updateGenero(GeneroRequest genero) {
+        GeneroResponse response = null;
         if (genero != null && genero.getId() != null && genero.getId() > 0) {
-            updatedGenero = this.generoDAO.update(genero);
+            Genero aux = this.generoDAO.findById(genero.getId());
+            if (aux != null) {
+                this.generoMapper.toUpdateEntity(genero, aux);
+                this.generoDAO.update(aux);
+                response = this.generoMapper.toResponse(aux);
+            }
         }
-        return updatedGenero;
+        return response;
     }
 
     @Override

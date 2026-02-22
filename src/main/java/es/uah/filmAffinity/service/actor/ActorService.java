@@ -1,6 +1,9 @@
 package es.uah.filmAffinity.service.actor;
 
 import es.uah.filmAffinity.dao.actor.IActorDAO;
+import es.uah.filmAffinity.dto.request.actor.ActorRequest;
+import es.uah.filmAffinity.dto.response.actor.ActorResponse;
+import es.uah.filmAffinity.mapper.actor.IActorMapper;
 import es.uah.filmAffinity.model.Actor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,42 +12,48 @@ import java.util.List;
 
 @Service
 public class ActorService implements IActorService {
-    private IActorDAO actorDAO;
+    private final IActorDAO actorDAO;
+    private final IActorMapper actorMapper;
 
     @Autowired
-    public ActorService(IActorDAO actorDAO) {
+    public ActorService(IActorDAO actorDAO, IActorMapper actorMapper) {
         this.actorDAO = actorDAO;
+        this.actorMapper = actorMapper;
     }
 
     @Override
-    public List<Actor> findAll() {
-        return this.actorDAO.findAll();
+    public List<ActorResponse> findAll() {
+        return this.actorDAO.findAll().stream().map(this.actorMapper::toResponse).toList();
     }
 
     @Override
-    public Actor findById(Integer id) {
-        Actor actor = null;
+    public ActorResponse findById(Integer id) {
+        ActorResponse actor = null;
         if (id != null && id > 0) {
-            actor = this.actorDAO.findById(id);
+            actor = this.actorMapper.toResponse(this.actorDAO.findById(id));
         }
         return actor;
     }
 
     @Override
-    public Actor save(Actor actor) {
-        Actor savedActor = null;
-        if (actor != null && (actor.getId() == null || actor.getId() == 0)) {
-            actor.setId(null);
-            savedActor = this.actorDAO.save(actor);
+    public ActorResponse save(ActorRequest actor) {
+        ActorResponse savedActor = null;
+        if (actor != null) {
+            savedActor = this.actorMapper.toResponse(this.actorDAO.save(this.actorMapper.toNewEntity(actor)));
         }
         return savedActor;
     }
 
     @Override
-    public Actor update(Actor actor) {
-        Actor updatedActor = null;
+    public ActorResponse update(ActorRequest actor) {
+        ActorResponse updatedActor = null;
         if (actor != null && actor.getId() != null && actor.getId() > 0) {
-            updatedActor = this.actorDAO.update(actor);
+            Actor aux = this.actorDAO.findById(actor.getId());
+            if (aux != null) {
+                this.actorMapper.toUpdateEntity(actor, aux);
+                aux = this.actorDAO.update(aux);
+                updatedActor = this.actorMapper.toResponse(this.actorDAO.update(aux));
+            }
         }
         return updatedActor;
     }

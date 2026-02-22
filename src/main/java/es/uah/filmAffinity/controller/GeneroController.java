@@ -1,6 +1,7 @@
 package es.uah.filmAffinity.controller;
 
-import es.uah.filmAffinity.model.Genero;
+import es.uah.filmAffinity.dto.request.genero.GeneroRequest;
+import es.uah.filmAffinity.dto.response.genero.GeneroResponse;
 import es.uah.filmAffinity.service.genero.IGeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,35 +10,35 @@ import java.util.List;
 
 @RestController
 public class GeneroController {
-    private IGeneroService generoService;
+    private final IGeneroService generoService;
 
     @Autowired
     public GeneroController(IGeneroService generoService) {
         this.generoService = generoService;
     }
 
-    @GetMapping("/generos")
-    public List<Genero> getGeneros(){
+    @GetMapping("/genres")
+    public List<GeneroResponse> getGeneros() {
         return this.generoService.getGeneros();
     }
 
-    @GetMapping("/generos/id/{id}")
-    public Genero getGeneroById(@PathVariable("id") Integer id){
+    @GetMapping("/genres/id/{id}")
+    public GeneroResponse getGeneroById(@PathVariable("id") Integer id) {
         return this.generoService.getGeneroById(id);
     }
 
-    @PostMapping("/generos")
-    public Genero createGenero(@RequestBody Genero genero){
+    @PostMapping("/genres")
+    public GeneroResponse createGenero(@RequestBody GeneroRequest genero) {
         return this.generoService.createGenero(genero);
     }
 
-    @PutMapping("/generos")
-    public Genero updateGenero(@RequestBody Genero genero){
+    @PutMapping("/genres")
+    public GeneroResponse updateGenero(@RequestBody GeneroRequest genero) {
         return this.generoService.updateGenero(genero);
     }
 
-    @DeleteMapping("/generos/id/{id}")
-    public void deleteGeneroById(@PathVariable("id") Integer id){
+    @DeleteMapping("/genres/id/{id}")
+    public void deleteGeneroById(@PathVariable("id") Integer id) {
         this.generoService.deleteGeneroById(id);
     }
 

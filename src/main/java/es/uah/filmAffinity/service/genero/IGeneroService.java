@@ -1,13 +1,14 @@
 package es.uah.filmAffinity.service.genero;
 
-import es.uah.filmAffinity.model.Genero;
+import es.uah.filmAffinity.dto.request.genero.GeneroRequest;
+import es.uah.filmAffinity.dto.response.genero.GeneroResponse;
 
 import java.util.List;
 
 public interface IGeneroService {
-    Genero getGeneroById(Integer id);
-    List<Genero> getGeneros();
-    Genero createGenero(Genero genero);
-    Genero updateGenero(Genero genero);
+    List<GeneroResponse> getGeneros();
+    GeneroResponse getGeneroById(Integer id);
+    GeneroResponse createGenero(GeneroRequest genero);
+    GeneroResponse updateGenero(GeneroRequest genero);
     void deleteGeneroById(Integer id);
 }
